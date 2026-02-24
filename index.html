@@ -18,7 +18,13 @@
       --shadow: 0 20px 60px rgba(0,0,0,.45);
       --radius: 18px;
       --max: 1120px;
+
+      /* LinkedIn-like strip */
+      --strip:#f4f6f8;
+      --stripText:#111827;
+      --stripLine: rgba(17,24,39,.10);
     }
+
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
@@ -33,7 +39,7 @@
       letter-spacing:.2px;
     }
     a{color:inherit; text-decoration:none}
-    .wrap{max-width:var(--max); margin:0 auto; padding:18px 20px 70px}
+    .wrap{max-width:var(--max); margin:0 auto; padding:0 20px 70px}
 
     /* Header */
     header{
@@ -41,9 +47,9 @@
       gap:16px; padding:14px 0;
       position:sticky; top:0;
       backdrop-filter: blur(10px);
-      background: linear-gradient(to bottom, rgba(11,15,20,.82), rgba(11,15,20,.40));
+      background: linear-gradient(to bottom, rgba(11,15,20,.86), rgba(11,15,20,.45));
       border-bottom:1px solid var(--line);
-      z-index:20;
+      z-index:50;
     }
     .brand{display:flex; align-items:baseline; gap:10px; min-width: 220px;}
     .brand .name{font-weight:900; letter-spacing:1.6px}
@@ -72,6 +78,98 @@
       border-radius: var(--radius);
       box-shadow: var(--shadow);
     }
+    .muted{color:var(--muted)}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace}
+    .dot{
+      width:10px; height:10px; border-radius:50%;
+      background: radial-gradient(circle at 30% 30%, var(--accent2), var(--accent));
+      flex:0 0 auto;
+    }
+
+    /* ===== LinkedIn-like cover block ===== */
+    .cover{
+      margin-top:16px;
+      border-radius: 22px;
+      overflow:hidden;
+      border:1px solid rgba(232,238,245,.10);
+      background: rgba(255,255,255,.02);
+      position:relative;
+    }
+    .cover-img{
+      height: 300px;
+      background: url("banner.jpg") center/cover no-repeat;
+      filter: grayscale(100%);
+      position:relative;
+    }
+    /* subtle dark vignette so the banner looks premium */
+    .cover-img::after{
+      content:"";
+      position:absolute; inset:0;
+      background: radial-gradient(900px 320px at 30% 40%, rgba(0,0,0,.15), rgba(0,0,0,.55));
+      pointer-events:none;
+    }
+
+    /* White strip under banner (as your screenshot) */
+    .cover-strip{
+      height: 110px;
+      background: var(--strip);
+      border-top:1px solid var(--stripLine);
+      position:relative;
+    }
+
+    /* Circular profile overlapping banner + strip */
+    .profile-badge{
+      position:absolute;
+      left: 28px;
+      bottom: 110px; /* top of strip */
+      transform: translateY(55px); /* push down into strip */
+      width: 170px;
+      height: 170px;
+      border-radius: 999px;
+      border: 6px solid var(--strip);
+      box-shadow: 0 22px 55px rgba(0,0,0,.55);
+      overflow:hidden;
+      background: #fff;
+      z-index: 5;
+    }
+    .profile-badge img{
+      width:100%; height:100%;
+      object-fit: cover;
+      display:block;
+    }
+
+    /* Content block starts below cover */
+    main{
+      padding-top: 18px;
+    }
+
+    /* Hero area: give space so the avatar doesn't overlap text */
+    .hero{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap:16px;
+      align-items:start;
+      margin-top: 18px;
+    }
+    .heroLeft, .heroRight{padding:18px}
+
+    .headline{
+      margin:0;
+      font-size:28px;
+      line-height:1.15;
+      letter-spacing:.4px;
+    }
+    .role{
+      margin-top:6px;
+      font-size:14px;
+      color: rgba(232,238,245,.88);
+    }
+    .lead{
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size:15px;
+      max-width: 72ch;
+    }
     .chipRow{display:flex; gap:10px; flex-wrap:wrap; margin:14px 0 18px}
     .chip{
       font-size:13px; color:rgba(232,238,245,.88);
@@ -79,69 +177,6 @@
       padding:8px 12px; border-radius:999px;
       background: rgba(255,255,255,.02);
       display:inline-flex; align-items:center; gap:8px;
-    }
-    .dot{
-      width:10px; height:10px; border-radius:50%;
-      background: radial-gradient(circle at 30% 30%, var(--accent2), var(--accent));
-      flex:0 0 auto;
-    }
-    .muted{color:var(--muted)}
-    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace}
-
-    /* Banner (FIXED - no overlay, no covering content) */
-    .banner{
-      margin-top:16px;
-      border-radius: 22px;
-      overflow:hidden;
-      border:1px solid rgba(232,238,245,.10);
-      background: rgba(255,255,255,.02);
-    }
-    .banner img{
-      width:100%;
-      height: 320px;
-      display:block;
-      object-fit: cover;
-      filter: grayscale(100%);
-    }
-
-    /* Hero */
-    .hero{
-      padding: 18px 0 0;
-      display:grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap:16px;
-      align-items:start;
-    }
-    .heroLeft, .heroRight{padding:18px}
-    .profileRow{
-      display:flex; gap:16px; align-items:center;
-      margin-bottom: 10px;
-    }
-    .avatar{
-      width:88px; height:88px; border-radius:999px;
-      border:3px solid rgba(232,238,245,.85);
-      box-shadow: 0 18px 40px rgba(0,0,0,.45);
-      overflow:hidden;
-      background: rgba(255,255,255,.03);
-      flex:0 0 auto;
-    }
-    .avatar img{
-      width:100%; height:100%;
-      object-fit: cover;
-      display:block;
-    }
-    h1{margin:0; font-size:28px; line-height:1.15; letter-spacing:.4px}
-    .role{
-      margin-top:6px;
-      font-size:14px;
-      color: rgba(232,238,245,.88);
-    }
-    .role b{color:var(--text)}
-    .lead{
-      margin: 10px 0 0;
-      color: var(--muted);
-      font-size:15px;
-      max-width: 70ch;
     }
     .cta{display:flex; gap:12px; flex-wrap:wrap; margin-top: 14px}
     .note{
@@ -173,7 +208,6 @@
     }
     .sectionTitle h2{margin:0; font-size:20px; letter-spacing:.5px}
     .sectionTitle span{color:var(--muted); font-size:14px}
-
     .grid3{display:grid; grid-template-columns:repeat(3, 1fr); gap:16px}
     .grid2{display:grid; grid-template-columns:repeat(2, 1fr); gap:16px}
     .box{padding:18px}
@@ -183,7 +217,6 @@
     .processStep{padding:18px}
     .processStep .n{color:rgba(167,199,255,.9); font-weight:900; letter-spacing:1px}
     .processStep h3{margin:8px 0 8px}
-
     .split{display:grid; grid-template-columns: 1fr 1fr; gap:16px;}
     form{display:grid; gap:12px}
     input, textarea{
@@ -204,9 +237,18 @@
       display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap;
     }
 
+    /* Responsive */
     @media (max-width: 980px){
+      .cover-img{height: 240px;}
+      .cover-strip{height: 120px;}
+      .profile-badge{
+        width: 140px; height: 140px;
+        left: 18px;
+        bottom: 120px;
+        transform: translateY(60px);
+        border-width: 5px;
+      }
       .hero{grid-template-columns:1fr}
-      .banner img{height: 260px}
       .grid3{grid-template-columns:1fr}
       .grid2{grid-template-columns:1fr}
       .split{grid-template-columns:1fr}
@@ -230,186 +272,182 @@
       </nav>
     </header>
 
-    <!-- Banner (separate block; no overlay) -->
-    <div class="banner" aria-label="Superyacht refit banner">
-      <img src="banner.jpg" alt="Superyachts in a shipyard" />
+    <!-- LinkedIn-like cover -->
+    <div class="cover" aria-label="Cover image with profile">
+      <div class="cover-img"></div>
+      <div class="cover-strip"></div>
+      <div class="profile-badge" aria-label="Profile picture">
+        <img src="profile.jpg" alt="Carlos Rodríguez Iranzo" />
+      </div>
     </div>
 
-    <!-- Hero -->
-    <main class="hero" id="about">
-      <div class="card heroLeft">
-        <div class="profileRow">
-          <div class="avatar">
-            <img src="profile.jpg" alt="Carlos Rodríguez Iranzo" />
+    <main id="about">
+      <div class="hero">
+        <div class="card heroLeft">
+          <h1 class="headline">Carlos Rodríguez Iranzo</h1>
+          <div class="role">
+            <b>Commercial Manager</b> · <span class="muted">Astilleros de Mallorca</span>
           </div>
-          <div>
-            <h1>Carlos Rodríguez Iranzo</h1>
-            <div class="role">
-              <b>Commercial Manager</b> · <span class="muted">Astilleros de Mallorca</span>
-            </div>
-            <div class="muted" style="font-size:13px; margin-top:4px;">
-              Your direct contact for superyacht refit solutions and commercial coordination in the Mediterranean.
-            </div>
-          </div>
-        </div>
 
-        <p class="lead">
-          I support owners, captains, yacht managers and brokers with <b>refit &amp; repair</b> solutions and <b>brokerage support</b>,
-          leveraging the shipyard capabilities and service network of <b>Astilleros de Mallorca</b>.
-        </p>
-
-        <div class="chipRow">
-          <span class="chip"><span class="dot"></span>Mediterranean refit network</span>
-          <span class="chip"><span class="dot"></span>Owner &amp; Captain oriented</span>
-          <span class="chip"><span class="dot"></span>Commercial + technical coordination</span>
-        </div>
-
-        <p class="muted" style="margin:0; font-size:14px;">
-          Mi foco es simple: <b>claridad, plazos, presupuesto y resultados</b>. Una persona de contacto,
-          con respaldo de astillero y red de servicio.
-        </p>
-
-        <div class="cta">
-          <a class="btn primary" href="mailto:crodriguez@astillerosdemallorca.com?subject=Inquiry%20—%20Refit%20%2F%20Repair%20%2F%20Brokerage%20Support">Email</a>
-          <a class="btn" href="#contact">Request a call</a>
-        </div>
-
-        <div class="note">
-          Note: Any refit/repair scope and contracting is handled through <b>Astilleros de Mallorca</b>.
-          This page is a personal contact profile and entry point.
-        </div>
-      </div>
-
-      <div class="card heroRight" aria-label="Key benefits">
-        <div class="list">
-          <div class="li">
-            <div class="dot" style="margin-top:5px;"></div>
-            <div>
-              <strong>Single point of contact</strong>
-              <span>Commercial coordination with the right technical input.</span>
-            </div>
-          </div>
-          <div class="li">
-            <div class="dot" style="margin-top:5px;"></div>
-            <div>
-              <strong>Yard capability + service reach</strong>
-              <span>From planning to execution across the Med.</span>
-            </div>
-          </div>
-          <div class="li">
-            <div class="dot" style="margin-top:5px;"></div>
-            <div>
-              <strong>Decision-ready information</strong>
-              <span>Clear options, lead times, cost logic and next steps.</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
-
-    <!-- How I help -->
-    <section id="help">
-      <div class="sectionTitle">
-        <h2>How I help</h2>
-        <span>Refit · Repair · Brokerage Support</span>
-      </div>
-
-      <div class="grid3">
-        <div class="card box">
-          <h3>Refit &amp; Repair Coordination</h3>
-          <p>Scope definition, yard alignment, planning support and follow-up to keep timelines and costs under control.</p>
-        </div>
-        <div class="card box">
-          <h3>Owner / Captain Representation</h3>
-          <p>One point of contact to align stakeholders, report clearly and solve issues fast during yard periods.</p>
-        </div>
-        <div class="card box">
-          <h3>Brokerage Support</h3>
-          <p>Technical coordination for S&amp;P: due diligence support, yard strategy, repair planning and delivery readiness.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Mediterranean -->
-    <section id="med">
-      <div class="sectionTitle">
-        <h2>Mediterranean execution</h2>
-        <span>Results through the Astilleros de Mallorca network</span>
-      </div>
-
-      <div class="grid2">
-        <div class="card processStep">
-          <div class="n">01</div>
-          <h3>Assess</h3>
-          <p class="muted">Objectives, constraints, schedules and technical baseline — aligned early.</p>
-        </div>
-        <div class="card processStep">
-          <div class="n">02</div>
-          <h3>Plan</h3>
-          <p class="muted">Scope priorities, lead times, budget guardrails and reporting cadence.</p>
-        </div>
-        <div class="card processStep">
-          <div class="n">03</div>
-          <h3>Execute</h3>
-          <p class="muted">Coordination and issue resolution with shipyard-backed capability.</p>
-        </div>
-        <div class="card processStep">
-          <div class="n">04</div>
-          <h3>Deliver</h3>
-          <p class="muted">Handover-ready outcomes: documentation, trials readiness and close-out.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact -->
-    <section id="contact">
-      <div class="sectionTitle">
-        <h2>Contact</h2>
-        <span>Direct and discreet</span>
-      </div>
-
-      <div class="split">
-        <div class="card box">
-          <h3>Carlos Rodríguez Iranzo</h3>
-          <p class="muted" style="margin:0 0 10px;">
-            Commercial Manager · Astilleros de Mallorca
-          </p>
-          <p style="margin:0;">
-            Email: <a class="mono" href="mailto:crodriguez@astillerosdemallorca.com">crodriguez@astillerosdemallorca.com</a><br/>
-            Area: <span class="mono">Mediterranean</span>
+          <p class="lead">
+            I support owners, captains, yacht managers and brokers with <b>refit &amp; repair</b> solutions and <b>brokerage support</b>,
+            leveraging the shipyard capabilities and service network of <b>Astilleros de Mallorca</b> to deliver results, agreements and refits across the Mediterranean.
           </p>
 
-          <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
-            <a class="btn primary" href="mailto:crodriguez@astillerosdemallorca.com?subject=Inquiry%20—%20Refit%20%2F%20Repair%20%2F%20Brokerage%20Support">Email now</a>
+          <div class="chipRow">
+            <span class="chip"><span class="dot"></span>Mediterranean refit network</span>
+            <span class="chip"><span class="dot"></span>Owner &amp; Captain oriented</span>
+            <span class="chip"><span class="dot"></span>Commercial + technical coordination</span>
+          </div>
+
+          <p class="muted" style="margin:0; font-size:14px;">
+            Mi foco es simple: <b>claridad, plazos, presupuesto y resultados</b>. Una persona de contacto,
+            con respaldo de astillero y red de servicio.
+          </p>
+
+          <div class="cta">
+            <a class="btn primary" href="mailto:crodriguez@astillerosdemallorca.com?subject=Inquiry%20—%20Refit%20%2F%20Repair%20%2F%20Brokerage%20Support">Email</a>
+            <a class="btn" href="#contact">Request a call</a>
             <a class="btn" href="https://www.linkedin.com/in/carlos-rodr%C3%ADguez-iranzo-9b601653/" target="_blank" rel="noreferrer">LinkedIn</a>
           </div>
 
-          <div class="note" style="margin-top:14px;">
-            If you are an owner, captain, manager or broker: send a short note with yacht size, location and timeline.
-            I’ll reply with next steps and options.
+          <div class="note">
+            Note: Any refit/repair scope and contracting is handled through <b>Astilleros de Mallorca</b>.
+            This page is a personal contact profile and entry point.
           </div>
         </div>
 
-        <div class="card box">
-          <h3>Request a call</h3>
-          <form onsubmit="return sendMail(event)">
-            <input id="name" name="name" placeholder="Your name" required />
-            <input id="company" name="company" placeholder="Company / Role" />
-            <input id="email" name="email" type="email" placeholder="Email" required />
-            <textarea id="message" name="message" placeholder="Briefly describe what you need (refit / repair / brokerage support)." required></textarea>
-            <button class="btn primary" type="submit">Send</button>
-            <div class="muted" style="font-size:12px;">
-              This form opens your email client (no data stored on the website).
+        <div class="card heroRight" aria-label="Key benefits">
+          <div class="list">
+            <div class="li">
+              <div class="dot" style="margin-top:5px;"></div>
+              <div>
+                <strong>Single point of contact</strong>
+                <span>Commercial coordination with the right technical input.</span>
+              </div>
             </div>
-          </form>
+            <div class="li">
+              <div class="dot" style="margin-top:5px;"></div>
+              <div>
+                <strong>Yard capability + service reach</strong>
+                <span>From planning to execution across the Med.</span>
+              </div>
+            </div>
+            <div class="li">
+              <div class="dot" style="margin-top:5px;"></div>
+              <div>
+                <strong>Decision-ready information</strong>
+                <span>Clear options, lead times, cost logic and next steps.</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </section>
 
-    <footer>
-      <div>© <span id="year"></span> Carlos Rodríguez Iranzo</div>
-      <div class="mono">Refit · Repair · Brokerage Support (Astilleros de Mallorca network)</div>
-    </footer>
+      <!-- How I help -->
+      <section id="help">
+        <div class="sectionTitle">
+          <h2>How I help</h2>
+          <span>Refit · Repair · Brokerage Support</span>
+        </div>
+
+        <div class="grid3">
+          <div class="card box">
+            <h3>Refit &amp; Repair Coordination</h3>
+            <p>Scope definition, yard alignment, planning support and follow-up to keep timelines and costs under control.</p>
+          </div>
+          <div class="card box">
+            <h3>Owner / Captain Representation</h3>
+            <p>One point of contact to align stakeholders, report clearly and solve issues fast during yard periods.</p>
+          </div>
+          <div class="card box">
+            <h3>Brokerage Support</h3>
+            <p>Technical coordination for S&amp;P: due diligence support, yard strategy, repair planning and delivery readiness.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Mediterranean -->
+      <section id="med">
+        <div class="sectionTitle">
+          <h2>Mediterranean execution</h2>
+          <span>Results through the Astilleros de Mallorca network</span>
+        </div>
+
+        <div class="grid2">
+          <div class="card processStep">
+            <div class="n">01</div>
+            <h3>Assess</h3>
+            <p class="muted">Objectives, constraints, schedules and technical baseline — aligned early.</p>
+          </div>
+          <div class="card processStep">
+            <div class="n">02</div>
+            <h3>Plan</h3>
+            <p class="muted">Scope priorities, lead times, budget guardrails and reporting cadence.</p>
+          </div>
+          <div class="card processStep">
+            <div class="n">03</div>
+            <h3>Execute</h3>
+            <p class="muted">Coordination and issue resolution with shipyard-backed capability.</p>
+          </div>
+          <div class="card processStep">
+            <div class="n">04</div>
+            <h3>Deliver</h3>
+            <p class="muted">Handover-ready outcomes: documentation, trials readiness and close-out.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact">
+        <div class="sectionTitle">
+          <h2>Contact</h2>
+          <span>Direct and discreet</span>
+        </div>
+
+        <div class="split">
+          <div class="card box">
+            <h3>Carlos Rodríguez Iranzo</h3>
+            <p class="muted" style="margin:0 0 10px;">
+              Commercial Manager · Astilleros de Mallorca
+            </p>
+            <p style="margin:0;">
+              Email: <a class="mono" href="mailto:crodriguez@astillerosdemallorca.com">crodriguez@astillerosdemallorca.com</a><br/>
+              Area: <span class="mono">Mediterranean</span>
+            </p>
+
+            <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn primary" href="mailto:crodriguez@astillerosdemallorca.com?subject=Inquiry%20—%20Refit%20%2F%20Repair%20%2F%20Brokerage%20Support">Email now</a>
+              <a class="btn" href="https://www.linkedin.com/in/carlos-rodr%C3%ADguez-iranzo-9b601653/" target="_blank" rel="noreferrer">LinkedIn</a>
+            </div>
+
+            <div class="note" style="margin-top:14px;">
+              If you are an owner, captain, manager or broker: send a short note with yacht size, location and timeline.
+              I’ll reply with next steps and options.
+            </div>
+          </div>
+
+          <div class="card box">
+            <h3>Request a call</h3>
+            <form onsubmit="return sendMail(event)">
+              <input id="name" name="name" placeholder="Your name" required />
+              <input id="company" name="company" placeholder="Company / Role" />
+              <input id="email" name="email" type="email" placeholder="Email" required />
+              <textarea id="message" name="message" placeholder="Briefly describe what you need (refit / repair / brokerage support)." required></textarea>
+              <button class="btn primary" type="submit">Send</button>
+              <div class="muted" style="font-size:12px;">
+                This form opens your email client (no data stored on the website).
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <div>© <span id="year"></span> Carlos Rodríguez Iranzo</div>
+        <div class="mono">Refit · Repair · Brokerage Support (Astilleros de Mallorca network)</div>
+      </footer>
+    </main>
   </div>
 
   <script>
